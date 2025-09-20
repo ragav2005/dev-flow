@@ -20,6 +20,21 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Supabase setup (env + demo table)
+
+1. Create `.env.local` in the project root with your project URL and anon key:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+
+2. Create a `public.todos` table and simple RLS policies for local testing. You can run the SQL in the Supabase Dashboard (SQL editor) or the CLI. A ready-made script is in `supabase_seed.sql`.
+
+3. Start the dev server and open the app. The home page will query `public.todos`.
+
+> Note: The included policies are permissive for development. Tighten them before production.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
