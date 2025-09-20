@@ -26,7 +26,7 @@ export default function OAuthButtons({ redirectTo = "/", size = "md" }: Props) {
   const supabase = createClient();
   const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
   const baseClasses =
-    "flex items-center justify-center gap-2 w-full bg-[#2A2D3A] hover:bg-[#383b49] text-gray-200 font-medium rounded-lg border border-gray-700 transition-colors cursor-pointer";
+    "relative flex items-center justify-center gap-2 w-full bg-[#2A2D3A] hover:bg-[#383b49] text-gray-200 font-medium rounded-lg border border-gray-700 transition-colors cursor-pointer overflow-hidden";
   const pad = size === "sm" ? "py-1.5 px-3 text-sm" : "py-2 px-4";
 
   async function handleProvider(provider: "google" | "github") {
@@ -44,7 +44,7 @@ export default function OAuthButtons({ redirectTo = "/", size = "md" }: Props) {
         alert(error.message);
       }
     } finally {
-      setLoadingProvider(null);
+      setTimeout(() => setLoadingProvider(null), 2000);
     }
   }
 
@@ -54,19 +54,39 @@ export default function OAuthButtons({ redirectTo = "/", size = "md" }: Props) {
         type="button"
         disabled={!!loadingProvider}
         onClick={() => handleProvider("github")}
+        aria-disabled={!!loadingProvider}
+        aria-busy={loadingProvider === "github"}
         className={`${baseClasses} ${pad} disabled:opacity-50 disabled:cursor-not-allowed`}
       >
+        <span className="flex items-center justify-center w-4 h-4">
+          {loadingProvider === "github" && (
+            <span className="h-4 w-4 border-2 border-purple-400 border-t-transparent rounded-full animate-spin" />
+          )}
+        </span>
         <Github size={18} />
-        {loadingProvider === "github" ? "Redirecting..." : "GitHub"}
+        <span>GitHub</span>
+        {loadingProvider === "github" && (
+          <span className="sr-only">Redirecting to GitHub OAuth...</span>
+        )}
       </button>
       <button
         type="button"
         disabled={!!loadingProvider}
         onClick={() => handleProvider("google")}
+        aria-disabled={!!loadingProvider}
+        aria-busy={loadingProvider === "google"}
         className={`${baseClasses} ${pad} disabled:opacity-50 disabled:cursor-not-allowed`}
       >
+        <span className="flex items-center justify-center w-4 h-4">
+          {loadingProvider === "google" && (
+            <span className="h-4 w-4 border-2 border-purple-400 border-t-transparent rounded-full animate-spin" />
+          )}
+        </span>
         <GoogleIcon />
-        {loadingProvider === "google" ? "Redirecting..." : "Google"}
+        <span>Google</span>
+        {loadingProvider === "google" && (
+          <span className="sr-only">Redirecting to Google OAuth...</span>
+        )}
       </button>
     </div>
   );

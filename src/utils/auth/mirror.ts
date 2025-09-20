@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { getDisplayName } from "@/utils/auth/display";
 
 interface SupabaseUserLike {
   id: string;
@@ -7,17 +8,6 @@ interface SupabaseUserLike {
   user_metadata?: Record<string, unknown>;
 }
 
-interface UserMetaShape {
-  full_name?: unknown;
-  name?: unknown;
-}
-
-function extractName(meta?: Record<string, unknown>): string {
-  if (!meta) return "";
-  const m = meta as UserMetaShape;
-  const cand = m.full_name ?? m.name;
-  return typeof cand === "string" ? cand : "";
-}
 
 interface MirrorOptions {
   user: SupabaseUserLike;
@@ -34,7 +24,10 @@ export async function mirrorUser({
   const supabase = client ?? (await createClient());
   const fullName = (
     overrideName ||
-    extractName(user.user_metadata) ||
+    getDisplayName({
+      email: (user.email ?? undefined) as string | undefined,
+      user_metadata: user.user_metadata as Record<string, unknown> | undefined,
+    }) ||
     ""
   ).toString();
   const payload = {

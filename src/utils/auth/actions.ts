@@ -34,6 +34,12 @@ export interface SignInPayload {
 
 const normalizeEmail = (e: string) => e.trim();
 const normalizeName = (n: string) => n.trim();
+const isUserAlreadyRegistered = (msg: string) =>
+  msg.toLowerCase().includes("user already registered");
+const isPasswordTooShort = (msg: string) =>
+  msg.toLowerCase().includes("password should be at least");
+const isInvalidLogin = (msg: string) =>
+  msg.toLowerCase().includes("invalid login credentials");
 
 function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -64,27 +70,22 @@ function formatProvider(p?: string | null) {
   return providerLabelMap[lower] || capitalize(lower);
 }
 
-function mapSignUpError(
-  message: string,
-  existingProvider?: string | null
-): string {
-  const msg = message.toLowerCase();
-  if (msg.includes("user already registered")) {
+function mapSignUpError(message: string, existingProvider?: string | null) {
+  if (isUserAlreadyRegistered(message)) {
     const providerLabel = formatProvider(existingProvider || undefined);
-    if (providerLabel)
-      return `An account with this email already exists with ${providerLabel}`;
-    return "An account with this email already exists with Email or Google or Github"; // fallback
+    return providerLabel
+      ? `An account with this email already exists with ${providerLabel}`
+      : "An account with this email already exists";
   }
-  if (msg.includes("password should be at least"))
-    return "Password does not meet requirements";
+  if (isPasswordTooShort(message)) return "Password does not meet requirements";
   return message;
 }
 
 function mapSignInError(message: string, userExists: boolean | null): string {
-  const msg = message.toLowerCase();
-  if (msg.includes("invalid login credentials")) {
-    if (userExists === false) return "No account found for this email";
-    return "Incorrect password";
+  if (isInvalidLogin(message)) {
+    return userExists === false
+      ? "No account found for this email"
+      : "Incorrect password";
   }
   return message;
 }
@@ -148,7 +149,7 @@ async function performSignUp(
         email: (data.user as { email: string | null }).email,
         user_metadata: (
           data.user as { user_metadata?: Record<string, unknown> }
-        )?.user_metadata,
+        ).user_metadata,
       },
       overrideName: fullName,
     });

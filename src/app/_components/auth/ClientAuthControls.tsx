@@ -3,6 +3,7 @@ import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
+import { getDisplayName } from "@/utils/auth/display";
 
 interface Props {
   initialHasUser: boolean;
@@ -27,12 +28,8 @@ export default function ClientAuthControls({
       const { data } = await supabase.auth.getUser();
       if (!active) return;
       if (data.user) {
-        const displayName =
-          (data.user.user_metadata?.full_name as string) ||
-          (data.user.user_metadata?.name as string) ||
-          data.user.email ||
-          null;
-        setName(displayName);
+        const dn = getDisplayName(data.user) || null;
+        setName(dn);
         setHasUser(true);
       }
       setChecked(true);
