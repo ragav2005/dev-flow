@@ -67,7 +67,7 @@ export default async function Header() {
 
         {/* Auth Controls */}
         <div className="flex items-center gap-4">
-          <div className="flex gap-5">
+          <div className="flex gap-5 items-center">
             <ThemeSelector />
             <LanguageSelector />
             <RunButton />
