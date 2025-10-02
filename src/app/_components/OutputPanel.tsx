@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AlertTriangle,
   CheckCircle,
@@ -9,12 +9,16 @@ import {
 } from "lucide-react";
 import { useCodeEditorStore } from "@/store/useCodeEditorStore";
 import RunningCodeSkeleton from "./RunningCodeSkeleton";
+import { createClient } from "@/utils/supabase/client";
 
 const OutputPanel = () => {
   const { output, error, isRunning } = useCodeEditorStore();
   const [isCopied, setIsCopied] = useState(false);
+  const [user, setUser] = useState<Awaited<
+    ReturnType<typeof supabase.auth.getUser>
+  > | null>(null);
   const hasContent = output || error;
-
+  const supabase = createClient();
   const handleCopy = async () => {
     if (!hasContent) return;
     await navigator.clipboard.writeText(output || error || "");
@@ -22,6 +26,14 @@ const OutputPanel = () => {
 
     setTimeout(() => setIsCopied(false), 2000);
   };
+
+  useEffect(() => {
+    const getUser = async () => {
+      const user_data = await supabase.auth.getUser();
+      setUser(user_data);
+    };
+    getUser();
+  }, [supabase.auth]);
   return (
     <div className="relative bg-[#181825] rounded-xl p-4 ring-1 ring-gray-800/50">
       <div className="flex items-center justify-between mb-3">
@@ -74,7 +86,11 @@ const OutputPanel = () => {
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-emerald-400 mb-3">
                 <CheckCircle className="w-5 h-5" />
-                <span className="font-medium">Execution Successful</span>
+                <span className="font-medium">
+                  {user?.data.user
+                    ? "Execution Successful"
+                    : "Execution Successful and Please SignIn to save executions"}
+                </span>
               </div>
               <pre className="whitespace-pre-wrap text-gray-300">{output}</pre>
             </div>

@@ -45,7 +45,7 @@ export default function LanguageSelector() {
         onClick={() => setIsOpen(!isOpen)}
         className="group relative flex items-center gap-3 px-4 py-2.5 bg-[#1e1e2e]/80 
       rounded-lg transition-all 
-       duration-200 border border-gray-800/50 hover:border-gray-700"
+       duration-200 border border-gray-800/50 hover:border-gray-700 cursor-pointer"
       >
         <div
           className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/5 
