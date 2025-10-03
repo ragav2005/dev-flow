@@ -33,12 +33,10 @@ export default async function Header() {
   return (
     <div className="relative z-20 mb-6">
       <div className="flex items-center lg:justify-between justify-center bg-[#0a0a0f]/80 backdrop-blur-xl px-5 py-4 rounded-xl border border-white/5 shadow-lg">
-        {/* Left: Brand + Nav (hidden on small screens) */}
         <div className="hidden lg:flex items-center gap-8">
           <Link href="/" className="flex items-center gap-3 group relative">
-            {/* Glow hover gradient (blue themed) */}
             <div className="absolute -inset-2 bg-gradient-to-r from-sky-500/20 via-cyan-400/10 to-blue-600/20 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-500 blur-xl" />
-            {/* Logo container */}
+
             <div className="relative bg-gradient-to-br from-[#132034] to-[#0b111a] p-2 rounded-xl ring-1 ring-white/10 group-hover:ring-sky-400/40 transition-all">
               <CodeXml className="size-6 text-sky-400 -rotate-6 group-hover:rotate-0 transition-transform duration-500" />
             </div>
@@ -53,7 +51,7 @@ export default async function Header() {
           </Link>
           <nav className="flex items-center gap-2">
             <Link
-              href="/"
+              href="/snippets"
               className="relative group flex items-center gap-2 px-4 py-1.5 rounded-lg text-gray-300 bg-gray-800/40 hover:bg-sky-600/10 border border-gray-800 hover:border-sky-500/40 transition-all duration-300 overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />

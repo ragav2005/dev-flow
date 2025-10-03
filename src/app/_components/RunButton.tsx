@@ -20,12 +20,14 @@ export default function RunButton() {
     if (user.data.user) {
       const userId = user.data.user.id;
       const result = getExecutionResult();
+      const output = result?.output === "" ? null : result?.output;
+      const error = result?.error === "" ? null : result?.error;
       const payload = {
         userId,
         language,
         code: result?.code,
-        output: result?.output,
-        error: result?.error,
+        output,
+        error,
       };
 
       try {
