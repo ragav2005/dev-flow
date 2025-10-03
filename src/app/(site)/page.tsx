@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen">
       <div className="max-w-[1800px] p-4 mx-auto ">
-        <Header />
+        <Header isSnippet={false} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <EditorPanel />
           <OutputPanel />

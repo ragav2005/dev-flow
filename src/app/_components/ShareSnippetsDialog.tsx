@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import { useCodeEditorStore } from "@/store/useCodeEditorStore";
+import { start } from "repl";
 
 interface ShareSnippetsDialogProps {
   onClose: () => void;
@@ -27,13 +28,16 @@ const ShareSnippetsDialog = ({
 
     if (user.data.user) {
       const userId = user.data.user.id;
-      const name = user.data.user.user_metadata.name;
+      const name =
+        user.data.user.user_metadata.name ||
+        user.data.user.user_metadata.full_name;
       const payload = {
         userId,
         title: title.trim(),
         language,
         code,
         name,
+        startCount: 0,
       };
       try {
         const { error: insertError } = await supabase

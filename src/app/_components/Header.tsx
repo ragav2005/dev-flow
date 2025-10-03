@@ -11,7 +11,11 @@ import RunButton from "./RunButton";
 import LanguageSelector from "./LanguageSelector";
 import ThemeSelector from "./ThemeSelector";
 
-export default async function Header() {
+export default async function Header({
+  isSnippet = false,
+}: {
+  isSnippet?: boolean;
+}) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -51,13 +55,13 @@ export default async function Header() {
           </Link>
           <nav className="flex items-center gap-2">
             <Link
-              href="/snippets"
+              href={isSnippet ? "/" : "/snippets"}
               className="relative group flex items-center gap-2 px-4 py-1.5 rounded-lg text-gray-300 bg-gray-800/40 hover:bg-sky-600/10 border border-gray-800 hover:border-sky-500/40 transition-all duration-300 overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
               <Code className="w-4 h-4 relative z-10 group-hover:rotate-3 transition-transform" />
               <span className="text-sm font-medium relative z-10 group-hover:text-white">
-                Snippets
+                {isSnippet ? "Editor" : "Snippets"}
               </span>
             </Link>
           </nav>
@@ -65,12 +69,18 @@ export default async function Header() {
 
         {/* Auth Controls */}
         <div className="flex items-center gap-4">
-          <div className="flex gap-5 items-center">
-            <ThemeSelector />
-            <LanguageSelector />
-            <RunButton />
-          </div>
-          <div className="pl-4 ml-1 border-l border-gray-800">
+          {!isSnippet && (
+            <div className="flex gap-5 items-center">
+              <ThemeSelector />
+              <LanguageSelector />
+              <RunButton />
+            </div>
+          )}
+          <div
+            className={
+              isSnippet ? "pl-4 ml-1" : "pl-4 ml-1 border-l border-gray-800"
+            }
+          >
             <ClientAuthControls
               initialHasUser={!!user}
               initialDisplayName={displayName}
