@@ -37,7 +37,7 @@ const ShareSnippetsDialog = ({
         language,
         code,
         name,
-        startCount: 0,
+        starCount: 0,
       };
       try {
         const { error: insertError } = await supabase

@@ -17,7 +17,7 @@ export type Snippet = {
   userId: string;
   code: string;
   name: string;
-  starCount?: number; // Optional because column may not exist yet
+  starCount?: number;
 };
 
 export default function SnippetsClient() {
@@ -105,7 +105,6 @@ export default function SnippetsClient() {
         return;
       }
 
-      // Optimistic update
       setStarredIds((prev) => {
         const newSet = new Set(prev);
         if (isCurrentlyStarred) {
@@ -376,7 +375,6 @@ export default function SnippetsClient() {
         </motion.div>
       </div>
 
-      {/* Toast Viewport */}
       <div className="pointer-events-none fixed top-4 inset-x-0 z-50 flex items-center justify-center">
         <div className="pointer-events-auto max-w-md w-full px-4">
           <ToastViewport toasts={toasts} onClose={dismissToast} />
