@@ -64,7 +64,10 @@ export default function ClientAuthControls({
   if (hasUser) {
     return (
       <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
+        <div
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => router.push("/profile")}
+        >
           <Image
             src={avatar || FALLBACK_AVATAR}
             alt={name || "User avatar"}

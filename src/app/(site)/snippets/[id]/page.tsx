@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "@/app/_components/Header";
-import SnippetClient from "./__components/SnippetClient";
+import SnippetClient from "./_components/SnippetClient";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

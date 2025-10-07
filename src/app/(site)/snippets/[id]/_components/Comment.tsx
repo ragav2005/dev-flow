@@ -36,7 +36,7 @@ const Comment = ({
             <button
               onClick={() => onDelete(comment.id)}
               disabled={isDeleting}
-              className="opacity-0 group-hover:opacity-100 p-2 hover:bg-red-500/10 rounded-lg transition-all"
+              className=" cursor-pointer p-2 hover:bg-red-500/10 rounded-lg transition-all"
               title="Delete comment"
             >
               <Trash2Icon className="w-4 h-4 text-red-400" />

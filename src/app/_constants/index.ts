@@ -1,7 +1,7 @@
 import { Monaco } from "@monaco-editor/react";
 import { Theme } from "@/types";
 import type * as monacoNS from "monaco-editor";
-
+import { ListVideo, Star } from "lucide-react";
 type LanguageConfig = Record<
   string,
   {
@@ -429,3 +429,16 @@ export const defineMonacoThemes = (monaco: Monaco) => {
     monaco.editor.defineTheme(themeName, themeData);
   });
 };
+
+export const TABS = [
+  {
+    id: "executions",
+    label: "Code Executions",
+    icon: ListVideo,
+  },
+  {
+    id: "starred",
+    label: "Starred Snippets",
+    icon: Star,
+  },
+];
